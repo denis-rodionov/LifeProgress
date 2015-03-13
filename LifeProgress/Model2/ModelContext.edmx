@@ -1,0 +1,554 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.3.5" ProviderManifestToken="3.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="DBModelStoreContainer">
+          <EntitySet Name="CoefMapBundle" EntityType="DBModel.Store.CoefMapBundle" store:Type="Tables" />
+          <EntitySet Name="DayAchievement" EntityType="DBModel.Store.DayAchievement" store:Type="Tables" />
+          <EntitySet Name="Field" EntityType="DBModel.Store.Field" store:Type="Tables" />
+          <EntitySet Name="LoggedWork" EntityType="DBModel.Store.LoggedWork" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="DBModel.Store.Task" store:Type="Tables" />
+          <EntitySet Name="Week" EntityType="DBModel.Store.Week" store:Type="Tables" />
+          <AssociationSet Name="FK_DayAchievements_Weels" Association="DBModel.Store.FK_DayAchievements_Weels">
+            <End Role="DayAchievement" EntitySet="DayAchievement" />
+            <End Role="DayAchievement1" EntitySet="DayAchievement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Field" Association="DBModel.Store.FK_Field">
+            <End Role="Field" EntitySet="Field" />
+            <End Role="CoefMapBundle" EntitySet="CoefMapBundle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LoggedWork_DayAchievement" Association="DBModel.Store.FK_LoggedWork_DayAchievement">
+            <End Role="DayAchievement" EntitySet="DayAchievement" />
+            <End Role="LoggedWork" EntitySet="LoggedWork" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LoggedWorks_Tasks" Association="DBModel.Store.FK_LoggedWorks_Tasks">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="LoggedWork" EntitySet="LoggedWork" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksFields" Association="DBModel.Store.FK_TasksFields">
+            <End Role="Field" EntitySet="Field" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksWeeks" Association="DBModel.Store.FK_TasksWeeks">
+            <End Role="Week" EntitySet="Week" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Week" Association="DBModel.Store.FK_Week">
+            <End Role="Week" EntitySet="Week" />
+            <End Role="CoefMapBundle" EntitySet="CoefMapBundle" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CoefMapBundle">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID_Week" Type="int" Nullable="false" />
+          <Property Name="ID_Field" Type="int" Nullable="false" />
+          <Property Name="Coefficient" Type="real" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DayAchievement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="ID_Week" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Field">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LoggedWork">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Value" Type="int" Nullable="false" />
+          <Property Name="ID_Task" Type="int" Nullable="false" />
+          <Property Name="ID_DayAcievement" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="IsDebted" Type="bit" Nullable="false" />
+          <Property Name="ID_Week" Type="int" Nullable="false" />
+          <Property Name="ID_Field" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Current" Type="int" Nullable="false" />
+          <Property Name="Norma" Type="int" />
+          <Property Name="OnceADay" Type="bit" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="100" />
+          <Property Name="Coefficient" Type="real" Nullable="false" />
+          <Property Name="RepeatingID" Type="int" />
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Week">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DayAchievements_Weels">
+          <End Role="DayAchievement" Type="DBModel.Store.DayAchievement" Multiplicity="1" />
+          <End Role="DayAchievement1" Type="DBModel.Store.DayAchievement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DayAchievement">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DayAchievement1">
+              <PropertyRef Name="ID_Week" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Field">
+          <End Role="Field" Type="DBModel.Store.Field" Multiplicity="1" />
+          <End Role="CoefMapBundle" Type="DBModel.Store.CoefMapBundle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Field">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CoefMapBundle">
+              <PropertyRef Name="ID_Field" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LoggedWork_DayAchievement">
+          <End Role="DayAchievement" Type="DBModel.Store.DayAchievement" Multiplicity="1" />
+          <End Role="LoggedWork" Type="DBModel.Store.LoggedWork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DayAchievement">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoggedWork">
+              <PropertyRef Name="ID_DayAcievement" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LoggedWorks_Tasks">
+          <End Role="Task" Type="DBModel.Store.Task" Multiplicity="1" />
+          <End Role="LoggedWork" Type="DBModel.Store.LoggedWork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoggedWork">
+              <PropertyRef Name="ID_Task" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksFields">
+          <End Role="Field" Type="DBModel.Store.Field" Multiplicity="1" />
+          <End Role="Task" Type="DBModel.Store.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Field">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ID_Field" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksWeeks">
+          <End Role="Week" Type="DBModel.Store.Week" Multiplicity="1" />
+          <End Role="Task" Type="DBModel.Store.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Week">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ID_Week" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Week">
+          <End Role="Week" Type="DBModel.Store.Week" Multiplicity="1" />
+          <End Role="CoefMapBundle" Type="DBModel.Store.CoefMapBundle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Week">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CoefMapBundle">
+              <PropertyRef Name="ID_Week" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ModelEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CoefMapBundle" EntityType="DBModel.FieldMap" />
+          <EntitySet Name="Field" EntityType="DBModel.Field" />
+          <EntitySet Name="Week" EntityType="DBModel.Week" />
+          <AssociationSet Name="FK_Field" Association="DBModel.FK_Field">
+            <End Role="Field" EntitySet="Field" />
+            <End Role="CoefMapBundle" EntitySet="CoefMapBundle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Week" Association="DBModel.FK_Week">
+            <End Role="Week" EntitySet="Week" />
+            <End Role="CoefMapBundle" EntitySet="CoefMapBundle" />
+          </AssociationSet>
+          <EntitySet Name="DayAchievement" EntityType="DBModel.DayAchievement" />
+          <EntitySet Name="LoggedWork" EntityType="DBModel.LoggedWork" />
+          <EntitySet Name="Task" EntityType="DBModel.Task" />
+          <AssociationSet Name="FK_DayAchievements_Weels" Association="DBModel.FK_DayAchievements_Weels">
+            <End Role="Week" EntitySet="Week" />
+            <End Role="DayAchievement" EntitySet="DayAchievement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksFields" Association="DBModel.FK_TasksFields">
+            <End Role="Field" EntitySet="Field" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LoggedWorks_Tasks" Association="DBModel.FK_LoggedWorks_Tasks">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="LoggedWork" EntitySet="LoggedWork" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TasksWeeks" Association="DBModel.FK_TasksWeeks">
+            <End Role="Week" EntitySet="Week" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LoggedWork_DayAchievement" Association="DBModel.FK_LoggedWork_DayAchievement">
+            <End Role="DayAchievement" EntitySet="DayAchievement" />
+            <End Role="LoggedWork" EntitySet="LoggedWork" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DayAchievements_Weels1" Association="DBModel.FK_DayAchievements_Weels1">
+            <End Role="DayAchievement" EntitySet="DayAchievement" />
+            <End Role="DayAchievement1" EntitySet="DayAchievement" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="FieldMap">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Week" Type="Int32" Nullable="false" />
+          <Property Name="ID_Field" Type="Int32" Nullable="false" />
+          <Property Name="Coefficient" Type="Single" Nullable="false" />
+          <NavigationProperty Name="Field" Relationship="DBModel.FK_Field" FromRole="CoefMapBundle" ToRole="Field" />
+          <NavigationProperty Name="Week" Relationship="DBModel.FK_Week" FromRole="CoefMapBundle" ToRole="Week" />
+        </EntityType>
+        <EntityType Name="Field">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="FieldMap" Relationship="DBModel.FK_Field" FromRole="Field" ToRole="CoefMapBundle" />
+          <NavigationProperty Name="Tasks" Relationship="DBModel.FK_TasksFields" FromRole="Field" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="Week">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FieldMaps" Relationship="DBModel.FK_Week" FromRole="Week" ToRole="CoefMapBundle" />
+          <NavigationProperty Name="DayAchievements" Relationship="DBModel.FK_DayAchievements_Weels" FromRole="Week" ToRole="DayAchievement" />
+          <NavigationProperty Name="Tasks" Relationship="DBModel.FK_TasksWeeks" FromRole="Week" ToRole="Task" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Field">
+          <End Role="Field" Type="DBModel.Field" Multiplicity="1" />
+          <End Role="CoefMapBundle" Type="DBModel.FieldMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Field">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CoefMapBundle">
+              <PropertyRef Name="ID_Field" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Week">
+          <End Role="Week" Type="DBModel.Week" Multiplicity="1" />
+          <End Role="CoefMapBundle" Type="DBModel.FieldMap" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Week">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CoefMapBundle">
+              <PropertyRef Name="ID_Week" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DayAchievement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="Int32" Name="ID_Week" Nullable="false" />
+          <NavigationProperty Name="Week" Relationship="DBModel.FK_DayAchievements_Weels" FromRole="DayAchievement" ToRole="Week" />
+          <NavigationProperty Name="LoggedWork" Relationship="DBModel.FK_LoggedWork_DayAchievement" FromRole="DayAchievement" ToRole="LoggedWork" />
+          <NavigationProperty Name="DayAchievement1" Relationship="DBModel.FK_DayAchievements_Weels1" FromRole="DayAchievement" ToRole="DayAchievement1" />
+          <NavigationProperty Name="DayAchievement2" Relationship="DBModel.FK_DayAchievements_Weels1" FromRole="DayAchievement1" ToRole="DayAchievement" />
+        </EntityType>
+        <EntityType Name="LoggedWork">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Value" Nullable="false" />
+          <Property Type="Int32" Name="ID_Task" Nullable="false" />
+          <NavigationProperty Name="Task" Relationship="DBModel.FK_LoggedWorks_Tasks" FromRole="LoggedWork" ToRole="Task" />
+          <Property Type="Int32" Name="ID_DayAcievement" Nullable="false" />
+          <NavigationProperty Name="DayAchievement" Relationship="DBModel.FK_LoggedWork_DayAchievement" FromRole="LoggedWork" ToRole="DayAchievement" />
+        </EntityType>
+        <EntityType Name="Task" Abstract="true">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsDebted" Nullable="false" />
+          <Property Type="Int32" Name="ID_Week" Nullable="false" />
+          <Property Type="Int32" Name="ID_Field" Nullable="false" />
+          <Property Type="Int32" Name="Current" Nullable="false" />
+          <NavigationProperty Name="Field" Relationship="DBModel.FK_TasksFields" FromRole="Task" ToRole="Field" />
+          <NavigationProperty Name="LoggedWork" Relationship="DBModel.FK_LoggedWorks_Tasks" FromRole="Task" ToRole="LoggedWork" />
+          <NavigationProperty Name="Week" Relationship="DBModel.FK_TasksWeeks" FromRole="Task" ToRole="Week" />
+          <Property Type="Single" Name="Coefficient" Nullable="false" />
+          <Property Type="Int32" Name="RepeatingID" />
+        </EntityType>
+        <Association Name="FK_DayAchievements_Weels">
+          <End Type="DBModel.Week" Role="Week" Multiplicity="1" />
+          <End Type="DBModel.DayAchievement" Role="DayAchievement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Week">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DayAchievement">
+              <PropertyRef Name="ID_Week" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksFields">
+          <End Type="DBModel.Field" Role="Field" Multiplicity="1" />
+          <End Type="DBModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Field">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ID_Field" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LoggedWorks_Tasks">
+          <End Type="DBModel.Task" Role="Task" Multiplicity="1" />
+          <End Type="DBModel.LoggedWork" Role="LoggedWork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoggedWork">
+              <PropertyRef Name="ID_Task" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TasksWeeks">
+          <End Type="DBModel.Week" Role="Week" Multiplicity="1" />
+          <End Type="DBModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Week">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="ID_Week" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="NumberTask" BaseType="DBModel.Task" >
+          <Property Type="Int32" Name="Norma" />
+          <Property Type="String" Name="Unit" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="OnceADay" />
+        </EntityType>
+        <EntityType Name="PercentTask" BaseType="DBModel.Task" />
+        <Association Name="FK_LoggedWork_DayAchievement">
+          <End Type="DBModel.DayAchievement" Role="DayAchievement" Multiplicity="1" />
+          <End Type="DBModel.LoggedWork" Role="LoggedWork" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DayAchievement">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LoggedWork">
+              <PropertyRef Name="ID_DayAcievement" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DayAchievements_Weels1">
+          <End Type="DBModel.DayAchievement" Role="DayAchievement" Multiplicity="1" />
+          <End Type="DBModel.DayAchievement" Role="DayAchievement1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DayAchievement">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DayAchievement1">
+              <PropertyRef Name="ID_Week" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="ModelEntities">
+          <EntitySetMapping Name="CoefMapBundle"><EntityTypeMapping TypeName="DBModel.FieldMap"><MappingFragment StoreEntitySet="CoefMapBundle">
+            <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="ID_Week" ColumnName="ID_Week" />
+            <ScalarProperty Name="ID_Field" ColumnName="ID_Field" />
+            <ScalarProperty Name="Coefficient" ColumnName="Coefficient" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Field"><EntityTypeMapping TypeName="DBModel.Field"><MappingFragment StoreEntitySet="Field">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Week"><EntityTypeMapping TypeName="DBModel.Week"><MappingFragment StoreEntitySet="Week">
+            <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+            <ScalarProperty Name="Year" ColumnName="Year" />
+            <ScalarProperty Name="Number" ColumnName="Number" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="DayAchievement">
+            <EntityTypeMapping TypeName="DBModel.DayAchievement">
+              <MappingFragment StoreEntitySet="DayAchievement">
+                <ScalarProperty Name="ID_Week" ColumnName="ID_Week" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoggedWork">
+            <EntityTypeMapping TypeName="DBModel.LoggedWork">
+              <MappingFragment StoreEntitySet="LoggedWork">
+                <ScalarProperty Name="ID_DayAcievement" ColumnName="ID_DayAcievement" />
+                <ScalarProperty Name="ID_Task" ColumnName="ID_Task" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Task">
+            <EntityTypeMapping TypeName="IsTypeOf(DBModel.Task)">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="RepeatingID" ColumnName="RepeatingID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Coefficient" ColumnName="Coefficient" />
+                <ScalarProperty Name="Current" ColumnName="Current" />
+                <ScalarProperty Name="ID_Field" ColumnName="ID_Field" />
+                <ScalarProperty Name="ID_Week" ColumnName="ID_Week" />
+                <ScalarProperty Name="IsDebted" ColumnName="IsDebted" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DBModel.NumberTask)">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="OnceADay" ColumnName="OnceADay" />
+                <ScalarProperty Name="Norma" ColumnName="Norma" />
+                <Condition ColumnName="Type" Value="1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(DBModel.PercentTask)">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <Condition ColumnName="Type" Value="2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model1">
+        <EntityTypeShape EntityType="DBModel.FieldMap" Width="1.5" PointX="3" PointY="2.625" Height="2.1725878906250005" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Field" Width="1.5" PointX="0.75" PointY="1.25" Height="1.7879850260416661" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Week" Width="1.5" PointX="6.875" PointY="0.875" Height="1.7879850260416674" IsExpanded="true" />
+        <AssociationConnector Association="DBModel.FK_Field" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.8314925130208328" />
+          <ConnectorPoint PointX="3" PointY="2.8314925130208328" />
+        </AssociationConnector>
+        <AssociationConnector Association="DBModel.FK_Week" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.875" PointY="2.8362939453125" />
+          <ConnectorPoint PointX="4.5" PointY="2.8362939453125" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DBModel.DayAchievement" Width="1.5" PointX="9.125" PointY="1.75" Height="1.7879850260416657" />
+        <EntityTypeShape EntityType="DBModel.LoggedWork" Width="1.5" PointX="5.125" PointY="3.375" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="DBModel.Task" Width="1.5" PointX="12.125" PointY="0.75" Height="2.9417936197916665" />
+        <AssociationConnector Association="DBModel.FK_DayAchievements_Weels" >
+          <ConnectorPoint PointX="8.375" PointY="2.4949446614583337" />
+          <ConnectorPoint PointX="9.125" PointY="2.4949446614583337" />
+        </AssociationConnector>
+        <AssociationConnector Association="DBModel.FK_TasksFields" >
+          <ConnectorPoint PointX="1.5" PointY="1.25" />
+          <ConnectorPoint PointX="1.5" PointY="0.78125" />
+          <ConnectorPoint PointX="12.125" PointY="0.78125" />
+        </AssociationConnector>
+        <AssociationConnector Association="DBModel.FK_LoggedWorks_Tasks" >
+          <ConnectorPoint PointX="12.4687475" PointY="3.6917936197916665" />
+          <ConnectorPoint PointX="12.4687475" PointY="3.9588932291666667" />
+          <ConnectorPoint PointX="6.625" PointY="3.9588932291666667" />
+        </AssociationConnector>
+        <AssociationConnector Association="DBModel.FK_TasksWeeks" >
+          <ConnectorPoint PointX="8.375" PointY="1.28125" />
+          <ConnectorPoint PointX="12.125" PointY="1.28125" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="DBModel.NumberTask" Width="1.5" PointX="10.125" PointY="4.625" Height="1.5956835937499996" />
+        <InheritanceConnector EntityType="DBModel.NumberTask" ManuallyRouted="false" >
+          <ConnectorPoint PointX="12.875" PointY="3.6917936197916665" />
+          <ConnectorPoint PointX="12.875" PointY="4.25" />
+          <ConnectorPoint PointX="10.875" PointY="4.25" />
+          <ConnectorPoint PointX="10.875" PointY="4.625" />
+        </InheritanceConnector>
+        <EntityTypeShape EntityType="DBModel.PercentTask" Width="1.5" PointX="13.25" PointY="4.5" Height="1.0187792968749996" />
+        <InheritanceConnector EntityType="DBModel.PercentTask" ManuallyRouted="false" >
+          <ConnectorPoint PointX="12.875" PointY="3.6917936197916665" />
+          <ConnectorPoint PointX="12.875" PointY="4.125" />
+          <ConnectorPoint PointX="14" PointY="4.125" />
+          <ConnectorPoint PointX="14" PointY="4.5" />
+        </InheritanceConnector>
+        <AssociationConnector Association="DBModel.FK_LoggedWork_DayAchievement" >
+          <ConnectorPoint PointX="9.125" PointY="3.5442203776041667" />
+          <ConnectorPoint PointX="6.625" PointY="3.5442203776041667" />
+        </AssociationConnector>
+        <AssociationConnector Association="DBModel.FK_DayAchievements_Weels1" >
+          <ConnectorPoint PointX="9.6569230769230767" PointY="4.1148893229166665" />
+          <ConnectorPoint PointX="9.6569230769230767" PointY="4.3648893229166665" />
+          <ConnectorPoint PointX="10.103461538461538" PointY="4.3648893229166665" />
+          <ConnectorPoint PointX="10.103461538461538" PointY="4.1148893229166665" />
+        </AssociationConnector>
+        </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
